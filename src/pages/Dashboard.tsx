@@ -3,6 +3,7 @@ import './Dashboard.css';
 //todo: improve imports
 import CardsList from '../components/CardsList/CardsList';
 import AmountFilter from '../components/AmountFilter/AmountFilter';
+import TransactionsList from '../components/TransactionsList/TransactionsList';
 
 function Dashboard() {
 	return (
@@ -16,7 +17,7 @@ function Dashboard() {
 
 				<AmountFilter />
 
-				{/* TransactionsList widget */}
+				<TransactionsList />
 			</main>
 		</div>
 	);
