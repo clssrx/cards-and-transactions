@@ -1,10 +1,15 @@
+import type { Card } from '../../../types';
 import './CardItem.css';
 
-function CardItem() {
+type CardItemProps = {
+	card: Card;
+};
+
+function CardItem({ card }: CardItemProps) {
 	return (
 		<div className='card-item'>
-			<h3>Card description</h3>
-			<p>Card id</p>
+			<h3>{card.description}</h3>
+			<p>{card.id}</p>
 		</div>
 	);
 }
