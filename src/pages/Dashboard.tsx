@@ -1,5 +1,8 @@
 import './Dashboard.css';
 
+//todo: improve imports
+import CardsList from '../components/CardsList/CardsList';
+
 function Dashboard() {
 	return (
 		<div>
@@ -8,7 +11,7 @@ function Dashboard() {
 			</header>
 
 			<main className='main'>
-				{/* CardsList widget */}
+				<CardsList />
 
 				{/* Amount filter */}
 
