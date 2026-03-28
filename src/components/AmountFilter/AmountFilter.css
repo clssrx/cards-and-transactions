@@ -12,6 +12,10 @@
 	appearance: textfield;
 }
 
+.amount-filter label {
+	font-weight: 600;
+}
+
 input:focus::placeholder {
 	color: transparent;
 }
