@@ -1,13 +1,13 @@
 import './Dashboard.css';
 
 //would be nice to change the imports to show only one time the name
-import CardsList from '../components/CardsList/CardsList';
-import AmountFilter from '../components/AmountFilter/AmountFilter';
-import TransactionsList from '../components/TransactionsList/TransactionsList';
+import CardsList from '../../components/CardsList/CardsList';
+import AmountFilter from '../../components/AmountFilter/AmountFilter';
+import TransactionsList from '../../components/TransactionsList/TransactionsList';
 import { useEffect, useState } from 'react';
-import type { CardId } from '../types';
-import { useCards } from '../hooks/useCards';
-import { useTransactions } from '../hooks/useTransactions';
+import type { CardId } from '../../types';
+import { useCards } from '../../hooks/useCards';
+import { useTransactions } from '../../hooks/useTransactions';
 
 function Dashboard() {
 	const { cards, loading: cardsLoading, error: cardsError } = useCards();
