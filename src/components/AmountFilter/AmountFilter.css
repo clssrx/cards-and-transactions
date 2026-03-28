@@ -7,9 +7,17 @@
 .amount-filter input {
 	padding: 0.5rem;
 	font-size: 1rem;
-	border: 2px solid black;
-	border-radius: 4px;
+	border: 1px solid black;
+	border-radius: 6px;
 	appearance: textfield;
+}
+
+input:focus::placeholder {
+	color: transparent;
+}
+
+input:focus-visible {
+	outline: 2px solid black;
 }
 
 /* Chrome, Safari, Edge, Opera */
