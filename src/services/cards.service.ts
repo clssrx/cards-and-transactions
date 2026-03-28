@@ -1,4 +1,7 @@
 import type { Card } from '../types';
+import { getCardColor } from '../utils/getCardColor';
+
+type CardApi = Omit<Card, 'color'>;
 
 export async function getCards(): Promise<Card[]> {
 	const response = await fetch('/data/cards.json');
@@ -7,5 +10,10 @@ export async function getCards(): Promise<Card[]> {
 		throw new Error('Failed to fetch cards');
 	}
 
-	return response.json();
+	const cards = (await response.json()) as CardApi[];
+
+	return cards.map((card, index) => ({
+		...card,
+		color: getCardColor(index),
+	}));
 }

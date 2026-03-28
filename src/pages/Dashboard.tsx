@@ -48,6 +48,8 @@ function Dashboard() {
 		async function fetchTransactions() {
 			if (selectedCardId == '') return;
 
+			//we could add a caching layer, saving transactionsPerCard -- Record<CardId, Transaction[]>
+
 			try {
 				setTransactionsLoading(true);
 				setTransactionsError(null);
@@ -55,9 +57,9 @@ function Dashboard() {
 				const data = await getTransactions(selectedCardId);
 				setTransactions(data);
 			} catch (error) {
-				setCardsError((error as Error).message);
+				setTransactionsError((error as Error).message);
 			} finally {
-				setCardsLoading(false);
+				setTransactionsLoading(false);
 			}
 		}
 
@@ -70,6 +72,9 @@ function Dashboard() {
 		setSelectedCardId(cardId);
 		// to add later --> reset filter amount
 	}
+
+	const selectedCard = cards.find((card) => card.id === selectedCardId);
+	const selectedCardColor = selectedCard?.color ?? '#D64545';
 
 	return (
 		<div>
@@ -88,7 +93,10 @@ function Dashboard() {
 				<AmountFilter />
 
 				{/* add loading and error state */}
-				<TransactionsList transactions={transactions} />
+				<TransactionsList
+					transactions={transactions}
+					backgroundColor={selectedCardColor}
+				/>
 			</main>
 		</div>
 	);

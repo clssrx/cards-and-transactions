@@ -30,6 +30,7 @@ function CardsList({
 						card={card}
 						isSelected={selectedCardId == card.id}
 						handleSelectedCard={handleSelectedCard}
+						backgroundColor={card.color}
 					/>
 				))}
 			</ul>
