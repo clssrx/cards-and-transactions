@@ -18,7 +18,7 @@ function Dashboard() {
 	useEffect(() => {
 		if (!selectedCardId && cards.length > 0) {
 			setSelectedCardId(cards[0].id);
-			}
+		}
 	}, [cards, selectedCardId]);
 
 	const {
@@ -54,22 +54,30 @@ function Dashboard() {
 			</header>
 
 			<main className='main'>
-				{/* add loading and error state */}
-				<CardsList
-					cards={cards}
-					selectedCardId={selectedCardId}
-					handleSelectedCard={handleSelectedCard}
-				/>
+				{cardsLoading ? (
+					<p>Loading cards...</p>
+				) : cardsError ? (
+					//could add retry button
+					<p role='alert'>Failed to load cards: {cardsError}</p>
+				) : (
+					<CardsList
+						cards={cards}
+						selectedCardId={selectedCardId}
+						handleSelectedCard={handleSelectedCard}
+					/>
+				)}
+
 				<AmountFilter inputValue={inputValue} setInputValue={setInputValue} />
 
-				{/* add loading and error state for fetching */}
-				{hasFilteredTransactions ? (
+				{transactionsLoading ? (
+					<p>Loading transactions...</p>
+				) : transactionsError ? (
+					<p role='alert'>Failed to load transactions: {transactionsError}</p>
+				) : (
 					<TransactionsList
 						transactions={filteredTransactions}
 						backgroundColor={selectedCardColor}
 					/>
-				) : (
-					<p>No transactions match the selected minimum amount.</p>
 				)}
 			</main>
 		</div>
