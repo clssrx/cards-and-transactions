@@ -1,72 +1,31 @@
 import './Dashboard.css';
 
-//todo: improve imports
+//would be nice to change the imports to show only one time the name
 import CardsList from '../components/CardsList/CardsList';
 import AmountFilter from '../components/AmountFilter/AmountFilter';
 import TransactionsList from '../components/TransactionsList/TransactionsList';
 import { useEffect, useState } from 'react';
-import type { CardId, Transaction, Card } from '../types';
-import { getCards } from '../services/cards.service';
-import { getTransactions } from '../services/transactions.service';
+import type { CardId } from '../types';
+import { useCards } from '../hooks/useCards';
+import { useTransactions } from '../hooks/useTransactions';
 
 function Dashboard() {
-	const [cards, setCards] = useState<Card[]>([]);
-	const [cardsLoading, setCardsLoading] = useState(true);
-	const [cardsError, setCardsError] = useState<string | null>(null);
+	const { cards, loading: cardsLoading, error: cardsError } = useCards();
 
 	const [selectedCardId, setSelectedCardId] = useState<CardId>('');
-
-	const [transactions, setTransactions] = useState<Transaction[]>([]);
-	const [transactionsLoading, setTransactionsLoading] = useState(true);
-	const [transactionsError, setTransactionsError] = useState<string | null>(
-		null,
-	);
-
 	const [inputValue, setInputValue] = useState<string>('');
 
 	useEffect(() => {
-		async function fetchCards() {
-			try {
-				setCardsLoading(true);
-				setCardsError(null);
-
-				const data = await getCards();
-				setCards(data);
-
-				if (data.length > 0) {
-					setSelectedCardId(data[0].id); // Select the first card by default
-				}
-			} catch (error) {
-				setCardsError((error as Error).message);
-			} finally {
-				setCardsLoading(false);
-			}
+		if (!selectedCardId && cards.length > 0) {
+			setSelectedCardId(cards[0].id);
 		}
+	}, [cards, selectedCardId]);
 
-		fetchCards();
-	}, []);
-
-	useEffect(() => {
-		async function fetchTransactions() {
-			if (selectedCardId === '') return;
-
-			//we could add a caching layer, saving transactionsPerCard -- Record<CardId, Transaction[]>
-
-			try {
-				setTransactionsLoading(true);
-				setTransactionsError(null);
-
-				const data = await getTransactions(selectedCardId);
-				setTransactions(data);
-			} catch (error) {
-				setTransactionsError((error as Error).message);
-			} finally {
-				setTransactionsLoading(false);
-			}
-		}
-
-		fetchTransactions();
-	}, [selectedCardId]);
+	const {
+		transactions,
+		loading: transactionsLoading,
+		error: transactionsError,
+	} = useTransactions(selectedCardId);
 
 	function handleSelectedCard(cardId: CardId) {
 		if (cardId == selectedCardId) return; //if card already selected does nothing, could add popup that says like 'you're already seeing the transaction for this card'
@@ -88,8 +47,6 @@ function Dashboard() {
 		return transaction.amount >= parsedAmount;
 	});
 
-	const hasFilteredTransactions = filteredTransactions.length > 0;
-
 	return (
 		<div>
 			<header className='header'>
@@ -97,22 +54,30 @@ function Dashboard() {
 			</header>
 
 			<main className='main'>
-				{/* add loading and error state */}
-				<CardsList
-					cards={cards}
-					selectedCardId={selectedCardId}
-					handleSelectedCard={handleSelectedCard}
-				/>
+				{cardsLoading ? (
+					<p>Loading cards...</p>
+				) : cardsError ? (
+					//could add retry button
+					<p role='alert'>Failed to load cards: {cardsError}</p>
+				) : (
+					<CardsList
+						cards={cards}
+						selectedCardId={selectedCardId}
+						handleSelectedCard={handleSelectedCard}
+					/>
+				)}
+
 				<AmountFilter inputValue={inputValue} setInputValue={setInputValue} />
 
-				{/* add loading and error state for fetching */}
-				{hasFilteredTransactions ? (
+				{transactionsLoading ? (
+					<p>Loading transactions...</p>
+				) : transactionsError ? (
+					<p role='alert'>Failed to load transactions: {transactionsError}</p>
+				) : (
 					<TransactionsList
 						transactions={filteredTransactions}
 						backgroundColor={selectedCardColor}
 					/>
-				) : (
-					<p>No transactions match the selected minimum amount.</p>
 				)}
 			</main>
 		</div>
