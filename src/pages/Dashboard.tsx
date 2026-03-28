@@ -48,7 +48,7 @@ function Dashboard() {
 
 	useEffect(() => {
 		async function fetchTransactions() {
-			if (selectedCardId == '') return;
+			if (selectedCardId === '') return;
 
 			//we could add a caching layer, saving transactionsPerCard -- Record<CardId, Transaction[]>
 
@@ -72,7 +72,7 @@ function Dashboard() {
 		if (cardId == selectedCardId) return; //if card already selected does nothing, could add popup that says like 'you're already seeing the transaction for this card'
 
 		setSelectedCardId(cardId);
-		// to add later --> reset filter amount
+		setInputValue('');
 	}
 
 	const selectedCard = cards.find((card) => card.id === selectedCardId);
