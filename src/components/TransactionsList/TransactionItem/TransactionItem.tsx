@@ -1,11 +1,24 @@
+import type { Transaction } from '../../../types';
 import './TransactionItem.css';
 
-function TransactionItem() {
+type TransactionItemProps = {
+	transaction: Transaction;
+	backgroundColor: string;
+};
+
+function TransactionItem({
+	transaction,
+	backgroundColor,
+}: TransactionItemProps) {
 	return (
-		<div className='transaction-item'>
-			<h3>Transaction description</h3>
-			<p>Transaction amount</p>
-		</div>
+		<li
+			key={transaction.id}
+			className='transaction-item'
+			style={{ background: backgroundColor }}
+		>
+			<p>{transaction.description}</p>
+			<p>{transaction.amount}€</p>
+		</li>
 	);
 }
 

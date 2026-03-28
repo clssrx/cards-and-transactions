@@ -4,7 +4,7 @@ export type TransactionId = string;
 export interface Card {
 	id: CardId;
 	description: string;
-	color?: string;
+	color: string;
 }
 
 export type Transaction = {
