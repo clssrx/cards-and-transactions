@@ -1,12 +1,18 @@
 import './CardsList.css';
 import CardItem from './CardItem/CardItem';
-import type { Card } from '../../types';
+import type { Card, CardId } from '../../types';
 
 type CardsListProps = {
 	cards: Card[];
+	selectedCardId: string | null;
+	handleSelectedCard: (cardId: CardId) => void;
 };
 
-function CardsList({ cards }: CardsListProps) {
+function CardsList({
+	cards,
+	selectedCardId,
+	handleSelectedCard,
+}: CardsListProps) {
 	if (cards.length === 0) {
 		return (
 			<section className='card-list-section'>
@@ -19,7 +25,12 @@ function CardsList({ cards }: CardsListProps) {
 		<section className='card-list-section'>
 			<ul className='cards-list'>
 				{cards.map((card) => (
-					<CardItem key={card.id} card={card} />
+					<CardItem
+						key={card.id}
+						card={card}
+						isSelected={selectedCardId == card.id}
+						handleSelectedCard={handleSelectedCard}
+					/>
 				))}
 			</ul>
 		</section>

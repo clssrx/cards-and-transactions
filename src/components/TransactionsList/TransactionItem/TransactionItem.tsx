@@ -1,11 +1,16 @@
+import type { Transaction } from '../../../types';
 import './TransactionItem.css';
 
-function TransactionItem() {
+type TransactionItemProps = {
+	transaction: Transaction;
+};
+
+function TransactionItem({ transaction }: TransactionItemProps) {
 	return (
-		<div className='transaction-item'>
-			<h3>Transaction description</h3>
-			<p>Transaction amount</p>
-		</div>
+		<li className='transaction-item'>
+			<p>{transaction.description}</p>
+			<p>{transaction.amount}€</p>
+		</li>
 	);
 }
 
