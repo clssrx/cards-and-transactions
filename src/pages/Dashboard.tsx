@@ -78,14 +78,16 @@ function Dashboard() {
 			</header>
 
 			<main className='main'>
-				//add loading and error state
+				{/* add loading and error state */}
 				<CardsList
 					cards={cards}
 					selectedCardId={selectedCardId}
 					handleSelectedCard={handleSelectedCard}
 				/>
+
 				<AmountFilter />
-				//add loading and error state
+
+				{/* add loading and error state */}
 				<TransactionsList transactions={transactions} />
 			</main>
 		</div>
