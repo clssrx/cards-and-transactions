@@ -22,6 +22,8 @@ function Dashboard() {
 		null,
 	);
 
+	const [inputValue, setInputValue] = useState<string>('');
+
 	useEffect(() => {
 		async function fetchCards() {
 			try {
@@ -76,6 +78,18 @@ function Dashboard() {
 	const selectedCard = cards.find((card) => card.id === selectedCardId);
 	const selectedCardColor = selectedCard?.color ?? '#D64545';
 
+	const filteredTransactions = transactions.filter((transaction) => {
+		if (inputValue === '') return true;
+
+		const parsedAmount = Number(inputValue);
+
+		if (Number.isNaN(parsedAmount)) return true;
+
+		return transaction.amount >= parsedAmount;
+	});
+
+	const hasFilteredTransactions = filteredTransactions.length > 0;
+
 	return (
 		<div>
 			<header className='header'>
@@ -89,14 +103,17 @@ function Dashboard() {
 					selectedCardId={selectedCardId}
 					handleSelectedCard={handleSelectedCard}
 				/>
+				<AmountFilter inputValue={inputValue} setInputValue={setInputValue} />
 
-				<AmountFilter />
-
-				{/* add loading and error state */}
-				<TransactionsList
-					transactions={transactions}
-					backgroundColor={selectedCardColor}
-				/>
+				{/* add loading and error state for fetching */}
+				{hasFilteredTransactions ? (
+					<TransactionsList
+						transactions={filteredTransactions}
+						backgroundColor={selectedCardColor}
+					/>
+				) : (
+					<p>No transactions match the selected minimum amount.</p>
+				)}
 			</main>
 		</div>
 	);
