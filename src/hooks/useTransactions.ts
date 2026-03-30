@@ -11,13 +11,11 @@ export function useTransactions(selectedCardId: CardId) {
 		if (!selectedCardId) {
 			setTransactions([]);
 			setLoading(false);
+			setError(null);
 			return;
 		}
 
 		async function fetchTransactions() {
-			//could add a caching layer, saving transactionsPerCard -- Record<CardId, Transaction[]>
-			//if they didnt update
-
 			try {
 				setLoading(true);
 				setError(null);

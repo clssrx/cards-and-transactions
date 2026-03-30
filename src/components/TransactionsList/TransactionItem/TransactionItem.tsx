@@ -11,13 +11,14 @@ function TransactionItem({
 	backgroundColor,
 }: TransactionItemProps) {
 	return (
-		<li
-			key={transaction.id}
-			className='transaction-item'
-			style={{ background: backgroundColor }}
-		>
-			<p>{transaction.description}</p>
-			<p>{transaction.amount}€</p>
+		<li className='transaction-item' style={{ background: backgroundColor }}>
+			<span className='transaction-description'>{transaction.description}</span>
+			<span className='transaction-amount'>
+				{new Intl.NumberFormat('de-DE', {
+					style: 'currency',
+					currency: 'EUR',
+				}).format(transaction.amount)}
+			</span>
 		</li>
 	);
 }

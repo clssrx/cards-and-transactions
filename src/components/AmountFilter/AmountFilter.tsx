@@ -8,7 +8,7 @@ type AmountFilterProps = {
 function AmountFilter({ inputValue, setInputValue }: AmountFilterProps) {
 	return (
 		<section className='amount-filter'>
-			<label htmlFor='amount'>Filter here your transactions:</label>
+			<label htmlFor='amount-filter'>Filter here your transactions:</label>
 			<input
 				type='text'
 				inputMode='decimal'

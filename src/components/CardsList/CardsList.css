@@ -2,7 +2,7 @@
 	list-style: none;
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	gap: 1.5rem;
+	gap: 4rem;
 	margin: 0;
 	padding: 0;
 }
@@ -14,5 +14,6 @@
 @media (max-width: 480px) {
 	.cards-list {
 		grid-template-columns: 1fr;
+		gap: 2rem;
 	}
 }

@@ -15,7 +15,7 @@ function CardItem({
 	backgroundColor,
 }: CardItemProps) {
 	return (
-		<li key={card.id}>
+		<li>
 			<button
 				type='button'
 				className={`card-item ${isSelected ? 'selected' : ''}`}
@@ -23,8 +23,8 @@ function CardItem({
 				aria-pressed={isSelected}
 				style={{ background: backgroundColor }}
 			>
-				<p>{card.description}</p>
-				<p>{card.id}</p>
+				<p className='card-item-title'>{card.description}</p>
+				<p className='card-item-id'>{card.id}</p>
 			</button>
 		</li>
 	);
