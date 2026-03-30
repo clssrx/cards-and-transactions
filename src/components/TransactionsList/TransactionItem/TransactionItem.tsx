@@ -13,7 +13,12 @@ function TransactionItem({
 	return (
 		<li className='transaction-item' style={{ background: backgroundColor }}>
 			<span className='transaction-description'>{transaction.description}</span>
-			<span className='transaction-amount'>{transaction.amount} €</span>
+			<span className='transaction-amount'>
+				{new Intl.NumberFormat('de-DE', {
+					style: 'currency',
+					currency: 'EUR',
+				}).format(transaction.amount)}
+			</span>
 		</li>
 	);
 }
