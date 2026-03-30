@@ -77,7 +77,7 @@ describe('Dashboard', () => {
 		});
 	});
 
-	describe('when the user firs load the page', () => {
+	describe('when the user first loads the page', () => {
 		it('renders cards and shows transaction for the default selected card', async () => {
 			render(<Dashboard />);
 
@@ -107,6 +107,23 @@ describe('Dashboard', () => {
 				expect(screen.getByText('Food')).toBeInTheDocument();
 				expect(screen.getByText('Tickets')).toBeInTheDocument();
 				expect(screen.queryByText('Snack')).not.toBeInTheDocument();
+			});
+		});
+
+		describe('when no transactions match the minimum amount', () => {
+			it('shows no transactions message', async () => {
+				render(<Dashboard />);
+
+				await screen.findByText('Food');
+
+				const input = screen.getByPlaceholderText(/enter minimum amount/i);
+				fireEvent.change(input, { target: { value: '1000' } });
+
+				expect(
+					await screen.findByText(
+						/no transactions match the selected minimum amount/i,
+					),
+				).toBeInTheDocument();
 			});
 		});
 	});

@@ -28,7 +28,7 @@ function Dashboard() {
 	} = useTransactions(selectedCardId);
 
 	function handleSelectedCard(cardId: CardId) {
-		if (cardId == selectedCardId) return; //if card already selected does nothing, could add popup that says like 'you're already seeing the transaction for this card'
+		if (cardId === selectedCardId) return; //if card already selected does nothing, could add popup that says like 'you're already seeing the transaction for this card'
 
 		setSelectedCardId(cardId);
 		setInputValue('');
@@ -37,15 +37,12 @@ function Dashboard() {
 	const selectedCard = cards.find((card) => card.id === selectedCardId);
 	const selectedCardColor = selectedCard?.color ?? '#D64545';
 
-	const filteredTransactions = transactions.filter((transaction) => {
-		if (inputValue === '') return true;
+	const minAmount = Number(inputValue);
 
-		const parsedAmount = Number(inputValue);
-
-		if (Number.isNaN(parsedAmount)) return true;
-
-		return transaction.amount >= parsedAmount;
-	});
+	const filteredTransactions =
+		inputValue === '' || Number.isNaN(minAmount)
+			? transactions
+			: transactions.filter((t) => t.amount >= minAmount);
 
 	return (
 		<div>
@@ -54,31 +51,43 @@ function Dashboard() {
 			</header>
 
 			<main className='main'>
-				{cardsLoading ? (
-					<p>Loading cards...</p>
-				) : cardsError ? (
-					//could add retry button
-					<p role='alert'>Failed to load cards: {cardsError}</p>
-				) : (
-					<CardsList
-						cards={cards}
-						selectedCardId={selectedCardId}
-						handleSelectedCard={handleSelectedCard}
-					/>
-				)}
+				<section className='cards-section' aria-busy={cardsLoading}>
+					<h2 className='sr-only'>Cards</h2>
+					{cardsLoading ? (
+						<p aria-live='polite'>Loading cards...</p>
+					) : cardsError ? (
+						<p role='alert'>Failed to load cards: {cardsError}</p>
+					) : (
+						<CardsList
+							cards={cards}
+							selectedCardId={selectedCardId}
+							handleSelectedCard={handleSelectedCard}
+						/>
+					)}
+				</section>
 
 				<AmountFilter inputValue={inputValue} setInputValue={setInputValue} />
 
-				{transactionsLoading ? (
-					<p>Loading transactions...</p>
-				) : transactionsError ? (
-					<p role='alert'>Failed to load transactions: {transactionsError}</p>
-				) : (
-					<TransactionsList
-						transactions={filteredTransactions}
-						backgroundColor={selectedCardColor}
-					/>
-				)}
+				<section
+					className='transactions-section'
+					aria-busy={transactionsLoading}
+				>
+					<h2 className='sr-only'>Transactions</h2>
+					{transactionsLoading ? (
+						<p aria-live='polite'>Loading transactions...</p>
+					) : transactionsError ? (
+						<p role='alert'>Failed to load transactions: {transactionsError}</p>
+					) : filteredTransactions.length === 0 ? (
+						<p role='status'>
+							No transactions match the selected minimum amount.
+						</p>
+					) : (
+						<TransactionsList
+							transactions={filteredTransactions}
+							backgroundColor={selectedCardColor}
+						/>
+					)}
+				</section>
 			</main>
 		</div>
 	);

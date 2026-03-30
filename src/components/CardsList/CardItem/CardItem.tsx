@@ -15,7 +15,7 @@ function CardItem({
 	backgroundColor,
 }: CardItemProps) {
 	return (
-		<li key={card.id}>
+		<li>
 			<button
 				type='button'
 				className={`card-item ${isSelected ? 'selected' : ''}`}

@@ -4,7 +4,7 @@ import type { Card, CardId } from '../../types';
 
 type CardsListProps = {
 	cards: Card[];
-	selectedCardId: string | null;
+	selectedCardId: CardId | null;
 	handleSelectedCard: (cardId: CardId) => void;
 };
 
@@ -15,26 +15,24 @@ function CardsList({
 }: CardsListProps) {
 	if (cards.length === 0) {
 		return (
-			<section className='card-list-section'>
-				<p className='empty-state'>No cards available.</p>
-			</section>
+			<p className='empty-state' role='status'>
+				No cards available.
+			</p>
 		);
 	}
 
 	return (
-		<section className='card-list-section'>
-			<ul className='cards-list'>
-				{cards.map((card) => (
-					<CardItem
-						key={card.id}
-						card={card}
-						isSelected={selectedCardId == card.id}
-						handleSelectedCard={handleSelectedCard}
-						backgroundColor={card.color}
-					/>
-				))}
-			</ul>
-		</section>
+		<ul className='cards-list'>
+			{cards.map((card) => (
+				<CardItem
+					key={card.id}
+					card={card}
+					isSelected={selectedCardId === card.id}
+					handleSelectedCard={handleSelectedCard}
+					backgroundColor={card.color}
+				/>
+			))}
+		</ul>
 	);
 }
 

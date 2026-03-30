@@ -11,6 +11,7 @@ export function useTransactions(selectedCardId: CardId) {
 		if (!selectedCardId) {
 			setTransactions([]);
 			setLoading(false);
+			setError(null);
 			return;
 		}
 
