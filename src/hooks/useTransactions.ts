@@ -16,9 +16,6 @@ export function useTransactions(selectedCardId: CardId) {
 		}
 
 		async function fetchTransactions() {
-			//could add a caching layer, saving transactionsPerCard -- Record<CardId, Transaction[]>
-			//if they didnt update
-
 			try {
 				setLoading(true);
 				setError(null);

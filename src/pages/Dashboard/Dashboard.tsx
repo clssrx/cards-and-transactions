@@ -28,7 +28,7 @@ function Dashboard() {
 	} = useTransactions(selectedCardId);
 
 	function handleSelectedCard(cardId: CardId) {
-		if (cardId === selectedCardId) return; //if card already selected does nothing, could add popup that says like 'you're already seeing the transaction for this card'
+		if (cardId === selectedCardId) return;
 
 		setSelectedCardId(cardId);
 		setInputValue('');
