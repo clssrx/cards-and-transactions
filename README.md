@@ -1,6 +1,7 @@
 # Cards & Transactions – Frontend Exercise
 
 A React application that displays payment cards, allows users to select a card, and filter its transactions by minimum amount.
+(4 hrs task)
 
 ![Cards and transactions overview](docs/cards&transactions.png)
 
